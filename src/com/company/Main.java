@@ -2,14 +2,8 @@ package com.company;
 
 public class Main {
     public static void main(String[] args) {
-        /**
-        bili tmp = new bili();
-        String strmp;
-        long trid;
-        strmp = bili.get_real_url(26445, 10000, "web");
-        System.out.println(strmp);
-        */
-        String [] strings = {"a"};
-        player.palyer_main(strings);
+        player bidab = new player("roujuan",10000,"web");
+        bidab.play();
     }
+
 }
