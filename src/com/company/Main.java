@@ -2,8 +2,9 @@ package com.company;
 
 public class Main {
     public static void main(String[] args) {
-        player bidab = new player("roujuan",10000,"web");
-        bidab.play();
+        Window_play win = new Window_play();
+        win.setTitle("test");
+
     }
 
 }
