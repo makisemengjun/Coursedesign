@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+//继承线程类
 public class ExecThread extends Thread {
+    //获取错误流或输出流信息
     InputStream is;
+    //输入流的类型
     String type;
 
     ExecThread(InputStream is, String type) {

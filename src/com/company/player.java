@@ -37,7 +37,7 @@ public class player {
         this.way = way;
     }
 
-    public void play() {
+    public void play() throws CException {
         if (rmid != -1) {
             String str_url = bili.get_real_url(rmid, qn, way);
             //cmd即播放命令
@@ -48,19 +48,24 @@ public class player {
             try {
                 //创建进程用以播放获得的视频流
                 Process process_mpv = Runtime.getRuntime().exec(cmd);
-                //引入线程处理错误流及输出流信息，原因见课程设计文档
-                //一个处理错误信息
+                //引入线程处理错误流及输出流信息
+                //java默认的缓冲区很小，若不处理则很快会造成播放器假死
+                //处理错误信息
                 ExecThread errorMpv = new ExecThread(process_mpv.getErrorStream(), "Error");
                 //处理普通输出信息
                 ExecThread opMpv = new ExecThread(process_mpv.getInputStream(), "output");
                 //启动线程
                 errorMpv.start();
                 opMpv.start();
+
                 //开始播放视频流
                 process_mpv.waitFor();
 
             } catch (Exception e) {
-                System.out.println("mpv call failed");
+                CException CE = new CException("mpv call failed\n" +
+                        "Please make sure you install mpv and " +
+                        "check your environment variable");
+                throw CE;
             }
         }
     }

@@ -2,10 +2,12 @@ package com.company;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+//这是用来获取给定房间号的类
 
 public class bili {
 
-    public static long get_roomid(long rmid) {//获取真实直播房间号，因为有时在网页中看到的房间号不一定是真实的
+    //获取真实直播房间号，因为在网页中看到的房间号不一定是真实的
+    public static long get_roomid(long rmid) {
 
         //将房间号与url组合
         String strforbili = new String("https://api.live.bilibili.com/room/v1/Room/room_init?id=REProomid");
@@ -38,9 +40,9 @@ public class bili {
             return -2;
         }
 
-    }//end of get roomid.
+    }
 
-    public static String get_real_url(long rmid, long qn, String way) {//获取真实直播地址
+    public static String get_real_url(long rmid, long qn, String way) throws CException {//获取真实直播地址
         //rmid即房间号，qn为清晰度，way是获取flv还是html5源
         String f_url = "https://api.live.bilibili.com/xlive/web-room/v1/playUrl/playUrl";
         long rid = bili.get_roomid(rmid);//获取真实房间号
@@ -54,10 +56,14 @@ public class bili {
 
             //定义一些中间变量
             JSONObject jsonstream;
-            jsonstream = new JSONObject(builder.toString());//使用的json对象中间变量，将获取的字符串转为json对象
-            long code;//状态码，用以反映获取是否成功
-            JSONArray ardurl;//解析需要用到的jsonobject数组
-            String anstream;//结果字符串
+            //使用的json对象中间变量，将获取的字符串转为json对象
+            jsonstream = new JSONObject(builder.toString());
+            //状态码，用以反映获取是否成功
+            long code;
+            //解析需要用到的JsonObject数组
+            JSONArray ardurl;
+            //结果字符串
+            String anstream;
             code = jsonstream.getLong("code");
 
             if (code == 0) {//若返回结果正确
@@ -69,16 +75,23 @@ public class bili {
 
                 return anstream;
             } else {
-                return "get stream failed";
+                CException e = new CException("get stream failed");
+                throw e;
+
             }
 
         } else if (rmid == -1) {
-            return "未开播";
-        } else if (rmid == -2) {
-            return "房间不存在";
-        }
+            CException e = new CException("Liver still at sleep");
+            throw e;
 
-        return "exception";
+        } else if (rmid == -2) {
+            CException e = new CException("Room doesn't exists");
+            throw e;
+
+        }
+        CException e = new CException("Unknown error");
+        throw e;
+
     }
 
 }

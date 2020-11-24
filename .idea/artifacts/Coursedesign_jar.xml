@@ -1,0 +1,12 @@
+<component name="ArtifactManager">
+  <artifact build-on-make="true" name="Coursedesign:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Coursedesign_jar</output-path>
+    <root id="root">
+      <element id="archive" name="Coursedesign.jar">
+        <element id="module-output" name="Coursedesign" />
+      </element>
+      <element id="file-copy" path="$USER_HOME$/Documents/mariadb-java-client-2.7.0.jar" />
+      <element id="file-copy" path="$USER_HOME$/Documents/json-20200518.jar" />
+    </root>
+  </artifact>
+</component>
