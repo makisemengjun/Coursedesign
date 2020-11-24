@@ -10,25 +10,26 @@ public class bili {
     public static long get_roomid(long rmid) {
 
         //将房间号与url组合
-        String strforbili = new String("https://api.live.bilibili.com/room/v1/Room/room_init?id=REProomid");
-        String strrid = new String().valueOf(rmid);
+        String strforbili = "https://api.live.bilibili.com/room/v1/Room/room_init" +
+                "?id=REProomid";
+        String strrid = String.valueOf(rmid);
         strforbili = strforbili.replaceAll("REProomid", strrid);
 
         StringBuilder builder = new StringBuilder();
         builder = MyHttp.get(strforbili);
 
-        JSONObject jsonrid, jsontmp;
+        JSONObject json_rid, json_tmp;
         long code, l_status;
-        jsonrid = new JSONObject(builder.toString());
-        code = jsonrid.getLong("code");
+        json_rid = new JSONObject(builder.toString());
+        code = json_rid.getLong("code");
         //判断get返回值是否正常
         if (code == 0) {
             //先get到临时json文件
-            jsontmp = jsonrid.getJSONObject("data");
-            l_status = jsontmp.getLong("live_status");
+            json_tmp = json_rid.getJSONObject("data");
+            l_status = json_tmp.getLong("live_status");
             if (l_status == 1) {
                 //拿到真实房间号
-                rmid = jsontmp.getLong("room_id");
+                rmid = json_tmp.getLong("room_id");
                 //System.out.print(rmid);
                 return rmid;
             } else {
@@ -75,22 +76,18 @@ public class bili {
 
                 return anstream;
             } else {
-                CException e = new CException("get stream failed");
-                throw e;
+                throw new CException("get stream failed");
 
             }
 
         } else if (rmid == -1) {
-            CException e = new CException("Liver still at sleep");
-            throw e;
+            throw new CException("Liver still at sleep");
 
         } else if (rmid == -2) {
-            CException e = new CException("Room doesn't exists");
-            throw e;
+            throw new CException("Room doesn't exists");
 
         }
-        CException e = new CException("Unknown error");
-        throw e;
+        throw new CException("Unknown error");
 
     }
 
