@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
-//继承线程类
+//建立一个只读取消息，什么都不做的处理线程类
 public class ExecThread extends Thread {
     //获取错误流或输出流信息
     InputStream is;
@@ -22,8 +22,8 @@ public class ExecThread extends Thread {
             InputStreamReader isr = new InputStreamReader(is);
             BufferedReader br = new BufferedReader(isr);
             String line;
-            while ((line = br.readLine()) != null)
-                System.out.println(line);
+            while ((line = br.readLine()) != null);
+                //System.out.println(line);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -17,11 +17,11 @@ public class Window_play extends JFrame implements ActionListener {
     JButton JBT_play;
     //输入房间号的文本框
     JTextField room_name;
-    //输出信息的文本框，主要是mpv播放时的信息
+    //输出信息的文本框，主要是播放器播放时的信息
     JTextArea opArea = new JTextArea("Out put Area", 5, 20);
+    JPanel jp;
     //初始化清晰度对应的qn值映射
     Map<Integer, Long> qn_map;
-    JPanel jp;
 
     {
         qn_map = new HashMap<>();
@@ -32,6 +32,7 @@ public class Window_play extends JFrame implements ActionListener {
     }
 
     Window_play() {
+        //将初始化任务分为了几个函数
         init_room();
         init_qn();
         init_source();
@@ -39,12 +40,14 @@ public class Window_play extends JFrame implements ActionListener {
         init_jp();
     }
 
+    //房间号选项
     private void init_room() {
         //输入房间信息
         JL_name = new JLabel("直播间名");
         room_name = new JTextField(15);
     }
 
+    //清晰度选项
     private void init_qn() {
         //清晰度的选项
         JL_qn = new JLabel("清晰度");
@@ -56,6 +59,7 @@ public class Window_play extends JFrame implements ActionListener {
         JCB_qn.addItem("高清");//qn=150
     }
 
+    //源格式选项
     private void init_source() {
         //视频流格式的选项
         JL_source = new JLabel("视频流格式");
@@ -65,6 +69,7 @@ public class Window_play extends JFrame implements ActionListener {
         JCB_source.addItem("flv");
     }
 
+    //按钮
     private void init_button() {
         //播放按钮
         JBT_play = new JButton("播放");
@@ -72,6 +77,7 @@ public class Window_play extends JFrame implements ActionListener {
         JBT_play.addActionListener(this);
     }
 
+    //将上述组件添加到JPanel上
     private void init_jp() {
         //初始化容器JPanel
         jp = new JPanel();
@@ -111,19 +117,21 @@ public class Window_play extends JFrame implements ActionListener {
         //调用player类，使用不同的构造函数
         //这里的健壮性可能需要测试
         player p;
+        //检测输入的是名称还是数字
         try {
             long_rmid = Long.parseLong(str_rmid);
 
         } catch (NumberFormatException parseE) {
             rm_is_str = true;
         }
-        if (rm_is_str) {
-            p = new player(str_rmid, qn, source_way);
-        } else {
-            p = new player(long_rmid, qn, source_way);
-        }
-        //开始播放
+
         try {
+            if (rm_is_str) {//调用不同的构造函数，应该有更漂亮的写法
+                p = new player(str_rmid, qn, source_way);
+            } else {
+                p = new player(long_rmid, qn, source_way);
+            }
+            //开始播放
             p.play();
         } catch (CException playE) {
             //处理异常，告诉使用者出错信息
@@ -133,7 +141,7 @@ public class Window_play extends JFrame implements ActionListener {
 
         }
 
-        //TODO::增加上次观看的主播功能
+        //TODO::增加历史记录功能
     }
 
 
