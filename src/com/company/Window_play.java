@@ -7,7 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
-//继承自JFrame的底层容器，实现了事件监听的接口，类似于MVC结构。
+//继承自JFrame的底层容器，实现了事件监听的接口
 public class Window_play extends JFrame implements ActionListener {
     //name即房间名字，source即流格式，qn即清晰度
     JLabel JL_name, JL_source, JL_qn;
@@ -18,7 +18,7 @@ public class Window_play extends JFrame implements ActionListener {
     //输入房间号的文本框
     JTextField room_name;
     //输出信息的文本框，主要是播放器播放时的信息
-    JTextArea opArea = new JTextArea("Out put Area", 5, 20);
+    //JTextArea opArea = new JTextArea("Out put Area", 5, 20);
     JPanel jp;
     //初始化清晰度对应的qn值映射
     Map<Integer, Long> qn_map;
@@ -90,12 +90,13 @@ public class Window_play extends JFrame implements ActionListener {
         jp.add(JL_source);
         jp.add(JCB_source);
         jp.add(JBT_play);
-        jp.add(opArea);
+        //jp.add(opArea);
         //将jp添加到window_play这个容器才能显示出来
         add(jp);
     }
 
     public void actionPerformed(ActionEvent e) {//实现接口，用以开始播放
+
         //获得清晰度
         Long qn = qn_map.get(JCB_qn.getSelectedIndex());
         //获得流格式
@@ -141,7 +142,6 @@ public class Window_play extends JFrame implements ActionListener {
 
         }
 
-        //TODO::增加历史记录功能
     }
 
 
