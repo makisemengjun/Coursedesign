@@ -81,10 +81,10 @@ public class bili {
             }
 
         } else if (rmid == -1) {
-            throw new CException("Liver still at sleep");
+            throw new CException("主播没有开播");
 
         } else if (rmid == -2) {
-            throw new CException("Room doesn't exists");
+            throw new CException("房间不存在");
 
         }
         throw new CException("Unknown error");
