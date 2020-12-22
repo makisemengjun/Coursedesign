@@ -38,7 +38,6 @@ public class douyu {
         long ltmp = date.getTime();
         t13 = String.valueOf(ltmp);
         t10 = String.valueOf(ltmp / 1000);
-        //以下用正则表达式找到房间号
         String tmp_url = "https://m.douyu.com/" + short_id;
         StringBuilder sb_tmp = MyHttp.get(tmp_url);
         String result_get_rid = sb_tmp.toString();
@@ -58,8 +57,8 @@ public class douyu {
         String ans = "";
         try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
-            md5.update(data.getBytes());//TODO :: may require utf-8 settings
-            BigInteger hash = new BigInteger(1, md5.digest());//符号
+            md5.update(data.getBytes());
+            BigInteger hash = new BigInteger(1, md5.digest());//符号参数
             ans = hash.toString(16);
             while (ans.length() < 32) {
                 ans = "0" + ans;
@@ -179,7 +178,7 @@ public class douyu {
             System.out.println(res);
             JSONObject json_res = new JSONObject(res);
             err_id = json_res.getLong("error");
-            Boolean json_data_null = false;
+            boolean json_data_null = false;
             JSONObject json_data = null;
             try {
                 json_data = json_res.getJSONObject("data");
@@ -212,7 +211,6 @@ public class douyu {
         } else if (err_id == 104) {
             throw new CException("主播未开播");
         } else {
-            //throw new CException("暂不支持此类型");
             key_id = this.get_pc_js();
         }
 

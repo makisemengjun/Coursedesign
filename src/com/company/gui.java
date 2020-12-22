@@ -5,12 +5,16 @@ import javax.swing.*;
 public class gui {
 
     public static void print() {
+        JFrame jFrame = new JFrame();
         Window_play win = new Window_play();
-        win.setTitle("BiliBili直播");
-        win.setLocationRelativeTo(null);
         win.setSize(400, 255);
         win.setVisible(true);
-        win.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jFrame.add(win);
+        jFrame.setTitle("java play live");
+        jFrame.setLocationRelativeTo(null);
+        jFrame.setSize(600, 150);
+        jFrame.setVisible(true);
+        jFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 }

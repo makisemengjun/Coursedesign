@@ -5,6 +5,14 @@ import org.json.JSONObject;
 //这是用来获取给定房间号的类
 
 public class bili {
+    long rmid, qn;
+    String way;
+
+    bili(long r, long q, String w) {
+        rmid = r;
+        qn = q;
+        way = w;
+    }
 
     //获取真实直播房间号，因为在网页中看到的房间号不一定是真实的
     public static long get_roomid(long rmid) {
@@ -43,7 +51,7 @@ public class bili {
 
     }
 
-    public static String get_real_url(long rmid, long qn, String way) throws CException {//获取真实直播地址
+    public String get_real_url() throws CException {//获取真实直播地址
         //rmid即房间号，qn为清晰度，way是获取flv还是html5源
         String f_url = "https://api.live.bilibili.com/xlive/web-room/v1/playUrl/playUrl";
         long rid = bili.get_roomid(rmid);//获取真实房间号

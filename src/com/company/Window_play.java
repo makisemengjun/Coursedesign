@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //继承自JFrame的底层容器，实现了事件监听的接口
-public class Window_play extends JFrame implements ActionListener {
+public class Window_play extends JPanel implements ActionListener {
     //name即房间名字，source即流格式，qn即清晰度
     JLabel JL_name, JL_source, JL_qn;
     //两个下拉选框

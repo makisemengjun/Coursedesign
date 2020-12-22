@@ -40,7 +40,8 @@ public class player {
     }
 
     public void play() throws CException {
-        String str_url = bili.get_real_url(rmid, qn, way);
+        bili bili_e = new bili(rmid, qn, way);
+        String str_url = bili_e.get_real_url();
         //cmd即播放命令
         String cmd;
         System.out.println(str_url);
