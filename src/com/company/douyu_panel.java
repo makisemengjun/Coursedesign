@@ -7,9 +7,11 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
-//继承自JFrame的底层容器，实现了事件监听的接口
-public class Window_play extends JPanel implements ActionListener {
-    //name即房间名字，source即流格式，qn即清晰度
+//继承自JPanel的底层容器，实现了事件监听的接口
+public class douyu_panel extends JPanel implements ActionListener {
+    //初始化清晰度对应的qn值映射
+    public Map<Integer, Long> qn_map;
+    //name即房间名字，source即流线路，qn即清晰度
     JLabel JL_name, JL_source, JL_qn;
     //两个下拉选框
     JComboBox<String> JCB_source, JCB_qn;
@@ -17,21 +19,19 @@ public class Window_play extends JPanel implements ActionListener {
     JButton JBT_play;
     //输入房间号的文本框
     JTextField room_name;
-    //输出信息的文本框，主要是播放器播放时的信息
-    //JTextArea opArea = new JTextArea("Out put Area", 5, 20);
     JPanel jp;
-    //初始化清晰度对应的qn值映射
-    Map<Integer, Long> qn_map;
 
     {
         qn_map = new HashMap<>();
-        qn_map.put(1, 10000L);
-        qn_map.put(2, 400L);
-        qn_map.put(3, 250L);
-        qn_map.put(4, 150L);
+        qn_map.put(0, 1L);
+        qn_map.put(1, 0L);
+        qn_map.put(2, 4L);
+        qn_map.put(3, 3L);
+        qn_map.put(4, 2L);
+        qn_map.put(5, 1L);
     }
 
-    Window_play() {
+    douyu_panel() {
         //将初始化任务分为了几个函数
         init_room();
         init_qn();
@@ -52,21 +52,23 @@ public class Window_play extends JPanel implements ActionListener {
         //清晰度的选项
         JL_qn = new JLabel("清晰度");
         JCB_qn = new JComboBox<>();
+        //1流畅；2高清；3超清；4蓝光4M；0蓝光8M或10M
         JCB_qn.addItem("--请选择--");
-        JCB_qn.addItem("原画");//qn=10000
-        JCB_qn.addItem("蓝光");//qn=400
-        JCB_qn.addItem("超清");//qn=250
-        JCB_qn.addItem("高清");//qn=150
+        JCB_qn.addItem("蓝光8M");
+        JCB_qn.addItem("蓝光4M");
+        JCB_qn.addItem("超清");
+        JCB_qn.addItem("高清");
+        JCB_qn.addItem("流畅");
     }
 
     //源格式选项
     private void init_source() {
-        //视频流格式的选项
-        JL_source = new JLabel("视频流格式");
+        //视频流的线路
+        JL_source = new JLabel("视频流线路");
         JCB_source = new JComboBox<>();
         JCB_source.addItem("--请选择--");
-        JCB_source.addItem("web");
-        JCB_source.addItem("flv");
+        JCB_source.addItem("主线路");
+        JCB_source.addItem("备用线路");
     }
 
     //按钮
@@ -100,13 +102,12 @@ public class Window_play extends JPanel implements ActionListener {
         //获得清晰度
         Long qn = qn_map.get(JCB_qn.getSelectedIndex());
         //获得流格式
-        String source_way = "web";
+        String source_way = "ws-h5";
         switch (JCB_source.getSelectedIndex()) {
             case 1:
-                source_way = "web";
                 break;
             case 2:
-                source_way = "flv";
+                source_way = "tct-h5";
         }
 
         //str_rmid是主播名
@@ -118,6 +119,7 @@ public class Window_play extends JPanel implements ActionListener {
         //调用player类，使用不同的构造函数
         //这里的健壮性可能需要测试
         player p;
+
         //检测输入的是名称还是数字
         try {
             long_rmid = Long.parseLong(str_rmid);
@@ -128,9 +130,9 @@ public class Window_play extends JPanel implements ActionListener {
 
         try {
             if (rm_is_str) {//调用不同的构造函数，应该有更漂亮的写法
-                p = new player(str_rmid, qn, source_way);
+                p = new player(str_rmid, qn, source_way, "douyu_room");
             } else {
-                p = new player(long_rmid, qn, source_way);
+                p = new player(long_rmid, qn, source_way, "douyu_room");
             }
             //开始播放
             p.play();
@@ -143,6 +145,5 @@ public class Window_play extends JPanel implements ActionListener {
         }
 
     }
-
 
 }

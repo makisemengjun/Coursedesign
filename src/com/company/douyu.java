@@ -31,8 +31,10 @@ public class douyu {
     String t10, t13, key_id, rid;//数字为位数
     Long rate;
     long err_id;
+    String cdn;
 
-    douyu(long short_id, long rate) throws CException {
+    douyu(long short_id, long rate, String cdn) throws CException {
+        this.cdn = cdn;
         this.rate = rate;
         Date date = new Date();
         long ltmp = date.getTime();

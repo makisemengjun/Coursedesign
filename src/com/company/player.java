@@ -9,14 +9,16 @@ public class player {
     private final long rmid;
     private final long qn;
     private final String way;
+    private final String website;
 
-    player(String UpName, long qn, String way) throws CException {
+    player(String UpName, long qn, String way, String website) throws CException {
         this.qn = qn;
         this.way = way;
+        this.website = website;
         long rmid;
         //获取直播流
         try {
-            String str_sel = ("select rmid from biliroom where name" +
+            String str_sel = ("select rmid from " + website + " where name" +
                     " = \"REPUPNAME\"").replaceAll("REPUPNAME", UpName);
             ResultSet resultSet = MariaDB.select(str_sel);
             boolean next = resultSet.next();
@@ -33,18 +35,25 @@ public class player {
         this.rmid = rmid;
     }
 
-    player(long rmid, long qn, String way) {
+    player(long rmid, long qn, String way, String website) {
         this.rmid = rmid;
         this.qn = qn;
         this.way = way;
+        this.website = website;
     }
 
+
     public void play() throws CException {
-        bili bili_e = new bili(rmid, qn, way);
-        String str_url = bili_e.get_real_url();
+        String str_url = "";
+        if (website.equals("bili_room")) {
+            bili bili_e = new bili(rmid, qn, way);
+            str_url = bili_e.get_real_url();
+        } else if (website.equals("douyu_room")) {
+            douyu douyu_e = new douyu(rmid, qn, way);
+            str_url = douyu_e.get_real_url();
+        }
         //cmd即播放命令
         String cmd;
-        System.out.println(str_url);
         //--no-ytdl是mpv的一个选项，使用ytdl有可能会消耗token使得直播源提早失效
         cmd = "mpv " + str_url + " --no-ytdl";
         try {
@@ -52,9 +61,8 @@ public class player {
             Process process_mpv = Runtime.getRuntime().exec(cmd);
             /*
             引入线程处理错误流及输出流信息
-            java默认的缓冲区很小，若不处理则很快会造成播放器假死
-            处理错误信息
-            */
+            java默认的缓冲区很小，若不处理则很快会造成播放器假死*/
+            //处理错误信息
             ExecThread errorMpv = new ExecThread(process_mpv.getErrorStream(), "Error");
             //处理普通输出信息
             ExecThread opMpv = new ExecThread(process_mpv.getInputStream(), "output");
