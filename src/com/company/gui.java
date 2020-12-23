@@ -36,7 +36,6 @@ public class gui {
                                               }
                                           }
                                       }
-
         );
         jFrame.add(jTabbedPane);
 

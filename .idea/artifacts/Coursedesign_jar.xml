@@ -1,12 +1,26 @@
 <component name="ArtifactManager">
-  <artifact build-on-make="true" name="Coursedesign:jar">
+  <artifact type="jar" name="Coursedesign:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/Coursedesign_jar</output-path>
-    <root id="root">
-      <element id="archive" name="Coursedesign.jar">
-        <element id="module-output" name="Coursedesign" />
-      </element>
-      <element id="file-copy" path="$USER_HOME$/Documents/mariadb-java-client-2.7.0.jar" />
-      <element id="file-copy" path="$USER_HOME$/Documents/json-20200518.jar" />
+    <root id="archive" name="Coursedesign.jar">
+      <element id="module-output" name="Coursedesign" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/httpcore5-reactive-5.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/httpclient5-testing-5.0.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/commons-codec-1.13.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/httpclient5-cache-5.0.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/jna-5.2.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/httpcore5-5.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/httpcore5-testing-5.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/commons-cli-1.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/httpclient5-win-5.0.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/httpclient5-fluent-5.0.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/httpcore5-h2-5.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/httpclient5-5.0.3.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/rxjava-2.2.8.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/jna-platform-5.2.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/reactive-streams-1.0.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/httpcomponents-client-5.0.3-bin/httpcomponents-client-5.0.3/lib/slf4j-api-1.7.25.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/json-20200518.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/Documents/mariadb-java-client-2.7.0.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
