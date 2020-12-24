@@ -29,7 +29,7 @@ import javax.script.ScriptException;
 public class douyu {
     static String did = "10000000000000000000000000001501";//magic number,计算md5用
     String t10, t13, key_id, rid;//数字为位数
-    Long rate;
+    long rate;
     long err_id;
     String cdn;
 
@@ -66,18 +66,16 @@ public class douyu {
                 ans = "0" + ans;
             }
             return ans;
-        } catch (NoSuchAlgorithmException e) {
-
+        } catch (NoSuchAlgorithmException ignored) {
         }
         return ans;
     }
 
-    private String get_pc_js() {
+    private String get_pc_js() throws CException {
         /*
            cdn:主线路ws-h5,备用线路tct-h5
            rate: 1流畅；2高清；3超清；4蓝光4M；0蓝光8M或10M
          */
-        String cdn = "ws-h5";
         String res = MyHttp.get("https://www.douyu.com/" + rid).toString();
         Pattern p_js_func = Pattern.compile
                 ("(var\\svdwdae325w_64we[\\s\\S]*function ub98484234[\\s\\S]*?)function");
@@ -94,7 +92,7 @@ public class douyu {
             try {
                 engine.eval(func_ub9);
             } catch (Exception e) {
-
+                throw new CException("JS代码错误！");
             }
             Invocable inv = (Invocable) engine;
             res = inv.invokeFunction("ub98484234").toString();
@@ -114,7 +112,7 @@ public class douyu {
                 params = inv.invokeFunction("sign", rid, did, t10).toString();
                 String tmp = "&cdn=RECDN&rate=RERATE";
                 tmp = tmp.replace("RECDN", cdn);
-                tmp = tmp.replace("RERATE", "0");
+                tmp = tmp.replace("RERATE", String.valueOf(rate));
                 params += tmp;
                 String url = "https://www.douyu.com/lapi/live/getH5Play/" + rid + "?" + params;
                 CloseableHttpClient client = HttpClients.createDefault();
@@ -132,7 +130,6 @@ public class douyu {
                 JSONObject jsonObject = new JSONObject(builder.toString());
                 jsonObject = jsonObject.getJSONObject("data");
                 tmp = jsonObject.getString("rtmp_live");
-                System.out.println(tmp);
                 Matcher matcher = Pattern.compile("(\\d{1,7}[0-9a-zA-Z]+)").matcher(tmp);
                 if (matcher.find()) {
                     tmp = matcher.group(1);
@@ -140,23 +137,21 @@ public class douyu {
                 return tmp;
             }
 
-
         } catch (ScriptException e) {
-            System.out.println("script exception");
+            throw new CException("代码错误！");
         } catch (NoSuchMethodException e) {
-            System.out.println("code error no such method");
+            throw new CException("代码错误!");
         } catch (IOException e) {
-            System.out.println("code error IO");
+            throw new CException("I/O错误，请稍候再试！");
         }
-
         return "";
     }
 
     private void get_pre() throws CException {
         try {
-            List<NameValuePair> data = new ArrayList<NameValuePair>();
+            List<NameValuePair> data = new ArrayList<>();
             data.add(new BasicNameValuePair("rid", this.rid));
-            data.add(new BasicNameValuePair("did", this.did));
+            data.add(new BasicNameValuePair("did", douyu.did));
             CloseableHttpClient client = HttpClients.createDefault();
             HttpPost post = new HttpPost("https://playweb.douyucdn.cn/lapi" +
                     "/live/hlsH5Preview/" + this.rid);
@@ -175,7 +170,6 @@ public class douyu {
             br.close();
             response.close();
             client.close();
-
             res = builder.toString();
             System.out.println(res);
             JSONObject json_res = new JSONObject(res);
@@ -187,7 +181,6 @@ public class douyu {
             } catch (JSONException e) {
                 json_data_null = true;
             }
-
             key_id = "";
             if (!json_data_null) {
                 String rtmp_live = json_data.getString("rtmp_live");
@@ -206,9 +199,7 @@ public class douyu {
     public String get_real_url() throws CException {
         this.get_pre();
         if (err_id == 0) {
-            ;
-        }
-        if (err_id == 102) {
+        } else if (err_id == 102) {
             throw new CException("房间不存在");
         } else if (err_id == 104) {
             throw new CException("主播未开播");

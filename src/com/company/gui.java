@@ -1,9 +1,6 @@
 package com.company;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.plaf.basic.BasicButtonListener;
 
 public class gui {
 
@@ -21,25 +18,22 @@ public class gui {
 
         jTabbedPane.add("bilibili", win_bili);
         jTabbedPane.add("douyu", win_douyu);
-        jTabbedPane.addChangeListener(new ChangeListener() {
-                                          @Override
-                                          public void stateChanged(ChangeEvent changeEvent) {
-                                              int tmp = jTabbedPane.getSelectedIndex();
-                                              jTabbedPane.getSelectedIndex();
-                                              switch (tmp) {
-                                                  case 0:
-                                                      jFrame.setTitle("bilibili");
-                                                      break;
-                                                  case 1:
-                                                      jFrame.setTitle("douyu");
-                                                      break;
-                                              }
-                                          }
-                                      }
+        jTabbedPane.addChangeListener(changeEvent -> {
+                    int tmp = jTabbedPane.getSelectedIndex();
+                    jTabbedPane.getSelectedIndex();
+                    switch (tmp) {
+                        case 0:
+                            jFrame.setTitle("bilibili");
+                            break;
+                        case 1:
+                            jFrame.setTitle("douyu");
+                            break;
+                    }
+                }
         );
         jFrame.add(jTabbedPane);
-
         jFrame.setTitle("bilibili");
+
         jFrame.setLocationRelativeTo(null);
         jFrame.setSize(600, 150);
         jFrame.setVisible(true);

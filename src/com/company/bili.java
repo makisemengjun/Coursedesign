@@ -23,7 +23,7 @@ public class bili {
         String strrid = String.valueOf(rmid);
         strforbili = strforbili.replaceAll("REProomid", strrid);
 
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder;
         builder = MyHttp.get(strforbili);
 
         JSONObject json_rid, json_tmp;

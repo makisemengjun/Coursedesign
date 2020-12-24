@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 public class MyHttp {//设置Http请求函数
 
@@ -25,7 +25,7 @@ public class MyHttp {//设置Http请求函数
             InputStream is = connection.getInputStream();
 
             //转换成字符串
-            InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+            InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8);
             BufferedReader br = new BufferedReader(isr);
 
             //临时变量用以串联结果
@@ -42,8 +42,6 @@ public class MyHttp {//设置Http请求函数
             //以上结束了此次连接
             //返回StringBuilder对象
             return builder;
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
