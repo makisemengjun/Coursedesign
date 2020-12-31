@@ -27,12 +27,16 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
 public class douyu {
-    static String did = "10000000000000000000000000001501";//magic number,计算md5用
-    String t10, t13, key_id, rid;//数字为位数
-    long rate;
-    long err_id;
-    String cdn;
+    //magic number,计算md5用
+    static String did = "10000000000000000000000000001501";
+    //cdn:主线路ws-h5,备用线路tct-h5
+    //rate: 1流畅；2高清；3超清；4蓝光4M；0蓝光8M或10M
+    //t10为秒数，t13为毫秒数,rid为房间号，key_id是返回值中的变量,cdn是线路
+    String t10, t13, key_id, rid, cdn;
+    //rate是清晰度，err_id是返回值变量
+    long rate, err_id;
 
+    //构造函数，short_id是网页或客户端看见的房间号，不是真实房间号
     douyu(long short_id, long rate, String cdn) throws CException {
         this.cdn = cdn;
         this.rate = rate;
@@ -55,13 +59,14 @@ public class douyu {
         }
     }
 
+    //用于计算http请求的验证信息
     private String md5(String data) {
         String ans = "";
         try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");
             md5.update(data.getBytes());
             BigInteger hash = new BigInteger(1, md5.digest());//符号参数
-            ans = hash.toString(16);
+            ans = hash.toString(16);//16进制
             while (ans.length() < 32) {
                 ans = "0" + ans;
             }
@@ -72,11 +77,8 @@ public class douyu {
     }
 
     private String get_pc_js() throws CException {
-        /*
-           cdn:主线路ws-h5,备用线路tct-h5
-           rate: 1流畅；2高清；3超清；4蓝光4M；0蓝光8M或10M
-         */
         String res = MyHttp.get("https://www.douyu.com/" + rid).toString();
+        //得到需要的网页JS代码，它是一大段位运算代码，ub9*是我们需要的
         Pattern p_js_func = Pattern.compile
                 ("(var\\svdwdae325w_64we[\\s\\S]*function ub98484234[\\s\\S]*?)function");
         Matcher m_js_func = p_js_func.matcher(res);
@@ -84,6 +86,7 @@ public class douyu {
         if (m_js_func.find()) {
             result = m_js_func.group(1);
         }
+        //将JS返回值中的 return eval.(某个变量)改为返回需要的return strc
         func_ub9 = result.replaceAll("eval.*?;}", "strc;}");
         ScriptEngineManager m = new ScriptEngineManager();
         ScriptEngine engine = m.getEngineByName("js");
@@ -149,16 +152,19 @@ public class douyu {
 
     private void get_pre() throws CException {
         try {
+            //添加请求头信息
             List<NameValuePair> data = new ArrayList<>();
             data.add(new BasicNameValuePair("rid", this.rid));
             data.add(new BasicNameValuePair("did", douyu.did));
             CloseableHttpClient client = HttpClients.createDefault();
             HttpPost post = new HttpPost("https://playweb.douyucdn.cn/lapi" +
                     "/live/hlsH5Preview/" + this.rid);
+            //添加entity-body信息
             post.setHeader("rid", this.rid);
             post.setHeader("time", this.t13);
             post.setHeader("auth", this.md5(rid + t13));
             post.setEntity(new UrlEncodedFormEntity(data));
+            //执行请求，获得response，转换成字符串
             CloseableHttpResponse response = client.execute(post);
             BufferedReader br = new BufferedReader(new InputStreamReader(
                     response.getEntity().getContent()));
@@ -167,11 +173,12 @@ public class douyu {
             while ((tmp = br.readLine()) != null) {
                 builder.append(tmp);
             }
+            //关闭各个资源
             br.close();
             response.close();
             client.close();
             res = builder.toString();
-            System.out.println(res);
+            //转换成json格式，方便提取
             JSONObject json_res = new JSONObject(res);
             err_id = json_res.getLong("error");
             boolean json_data_null = false;
@@ -184,6 +191,7 @@ public class douyu {
             key_id = "";
             if (!json_data_null) {
                 String rtmp_live = json_data.getString("rtmp_live");
+                //提取rtmp_live，执行到这一步说明无需执行get_pc_js
                 Pattern p_m3u8 = Pattern.compile("(\\d{1,7}[0-9a-zA-Z]+)" +
                         "_?\\d{0,4}(/playlist|.m3u8)");
                 Matcher m_m3u8 = p_m3u8.matcher(rtmp_live);
