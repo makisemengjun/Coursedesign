@@ -18,8 +18,7 @@
     Gentoo有官方二进制包，网址为https://packages.gentoo.org/packages/media-video/mpv
     MacOS用户可以通过Homebrew安装。
     windows用户可以在https://sourceforge.net/projects/mpv-player-windows/files/ 下载安装。
-    若下载过慢可能需要使用工具，也可以在java课程群联系我（黎梓亿 2017051626 信息与计算科学），
-    或通过QQ邮箱592161867@qq.com发送邮件与我联系。
+    若下载过慢可能需要使用工具，也可以在java课程群联系我.
     注意，需要将mpv.exe的路径添加到系统环境变量，可以在终端使用mpv --version确认是否添加成功。
 ### 程序的使用
     只需要打开对应的网站的直播间，在地址栏就可以看见直播房间号。也可以在主播的个人空间等地方找到。
